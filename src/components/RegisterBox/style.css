@@ -1,0 +1,58 @@
+.header-box{
+    background-color: #EFEFEF;
+}
+
+.MuiButton-contained.btn-deal-success,
+.btn-deal-success{
+    background-color: #39B54A;
+    color: #FFF;
+    padding: 6px 40px;
+}
+
+.MuiButton-contained.btn-deal-success:hover,
+.btn-deal-success:hover{
+    background-color: #39B54A;
+    color: #FFF;
+}
+
+/* Estilos para la apertura de cuenta */
+.apertura-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.apertura-header {
+  background-color: var(--light-blue);
+  padding: 15px;
+  text-align: center;
+}
+
+.apertura-content {
+  padding: 25px 20px;
+  text-align: center;
+}
+
+.apertura-content .MuiTextField-root {
+  margin-bottom: 20px;
+}
+
+.apertura-content .MuiFormControl-root {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .apertura-content {
+    padding: 30px 20px;
+  }
+  
+  .apertura-header {
+    padding: 15px;
+  }
+}

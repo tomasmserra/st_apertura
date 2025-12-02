@@ -1,0 +1,273 @@
+:root {
+    --verde: #39B54A;
+    --main-green: #198FD9;
+    --main-grey: #EBEBEB;
+    --title-grey: #efefef;
+    --light-blue: #006098;
+    --grey: #52575A;
+    --dark-grey: #212120;
+}
+
+.MuiButton-contained.btn-deal-success,
+.MuiButton-root.btn-deal-success,   
+.btn-deal-success{
+    background-color: var(--verde);
+    color: #FFF;
+    padding: 6px 40px;
+}
+
+.MuiButton-contained.btn-deal-success:hover,
+.MuiButton-root.btn-deal-success:hover,
+.btn-deal-success:hover{
+    background-color: var(--verde);
+    color: #FFF;
+}
+
+.MuiButtonBase-root.btn-deal-outlined-success{
+    border: 1px solid var(--verde);
+    color:var(--verde);
+}
+
+.fs-8 { font-size: 8px;}
+.fs-9 { font-size: 9px;}
+.fs-10 { font-size: 10px;}
+.fs-11 { font-size: 11px;}
+.fs-12 { font-size: 12px;}
+.fs-13 { font-size: 13px;}
+.fs-14 { font-size: 14px;}
+.fs-15 { font-size: 15px;}
+.fs-16 { font-size: 16px;}
+.fs-17 { font-size: 17px;}
+.fs-18 { font-size: 18px;}
+.fs-19 { font-size: 19px;}
+
+.mb-6 {
+    margin-bottom: 6rem!important;
+}
+
+.mt-6 {
+    margin-top: 6rem!important;
+}
+.mb-7 {
+    margin-bottom: 7rem!important;
+}
+
+.mt-7 {
+    margin-top: 7rem!important;
+}
+
+@media print {
+    .pageBreak {
+      page-break-before: always;
+    }
+  }
+
+/* Estilos del sitio web */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.2em;
+}
+
+body .MuiTypography-root, body .MuiTableCell-root {
+  font-family: 'Inter', sans-serif;
+}
+
+.MuiTypography-body1 {
+  line-height: 1.1em;
+}
+
+h1, h2, h3, h4, h5, p, span, input, textarea, ul, li, table {
+  font-family: 'Inter', sans-serif;
+}
+
+.header button {
+  font-weight: 600;
+  font-family: "Inter";
+  color: var(--main-grey);
+}
+
+.ml-2, .MuiButtonBase-root.ml-2 {
+  margin-left: 10px;
+}
+
+.mb-auto, .my-auto {
+  margin-bottom: auto!important;
+}
+
+.mt-auto, .my-auto {
+  margin-top: auto!important;
+}
+
+.MuiButton-text.btn-deal, .MuiButton-text.btn-deal:hover {
+  background-color: var(--main-green);
+  color: #FFF;
+}
+
+.MuiButton-text.btn-deal {
+  font-weight: 600;
+  font-family: "Inter";
+  font-size: 11px;
+}
+
+.MuiButton-text.btn-deal.btn-deal-blue, .MuiButton-text.btn-deal.btn-deal-blue:hover {
+  background-color: var(--light-blue);
+}
+
+.btn-deal-light span {
+  color: var(--dark-grey);
+}
+
+.btn-deal-white-blue {
+  background-color: #fff !important;
+  border-color: #fff !important;
+  box-shadow: none;
+  color: var(--light-blue) !important;
+}
+
+.MuiButton-text.btn-deal-white-blue {
+  font-weight: 600;
+  font-family: "Inter";
+  font-size: 13px;
+}
+
+.header .btn-header-alto, .header a.inline button {
+  color: #000;
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+  border-radius: 0px;
+}
+
+.btn-header-alto:hover, .btn-header-alto:active, .css-1e6y48t-MuiButtonBase-root-MuiButton-root.btn-header-alto:hover, .css-1e6y48t-MuiButtonBase-root-MuiButton-root.btn-header-alto:active, li.MuiMenuItem-root:hover {
+  background-color: var(--light-blue) !important;
+  border-color: var(--light-blue) !important;
+  box-shadow: none;
+  color: #fff !important
+}
+
+.MuiList-root li, ul.MuiList-root {
+  background-color: #f5f5f5
+}
+
+.menu-subitem {
+  color: #000;
+}
+
+.menu-subitem li:hover a {
+  color: #fff
+}
+
+div.css-e53awj-MuiStack-root, .header a.inline div {
+  display: inline;
+}
+
+.MuiToolbar-root a, a {
+  text-decoration: none;
+}
+
+div.transparent {
+  background-color: transparent;
+}
+
+.grey {
+  color: var(--grey)
+}
+
+.deal-footer {
+  background-color: #333333;
+  color: white;
+}
+
+.deal-footer.suscribe-foot {
+  background-color: var(--light-blue);
+}
+
+.deal-footer a {
+  color: #fff;
+}
+
+.deal-footer ul {
+  list-style: none;
+  padding: 0;
+  font-size: 12px;
+}
+
+.deal-footer ul li {
+  font-size: 12px;
+}
+
+.deal-footer h5 {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.deal-footer img {
+  width: 100%;
+  max-width: 250px;
+}
+
+.deal-footer.suscribe-foot h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.deal-footer.suscribe-foot button {
+  margin-left: 10px;
+}
+
+/* Estilos adicionales para botones del header */
+.btn-deal {
+  text-transform: none !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  padding: 8px 16px !important;
+  border-radius: 4px !important;
+}
+
+.btn-deal-light {
+  border-color: #ccc !important;
+  color: #333 !important;
+  background-color: #fff !important;
+  padding: 8px 16px !important;
+  min-height: 36px !important;
+}
+
+.btn-deal-light:hover {
+  background-color: #f5f5f5 !important;
+  border-color: #999 !important;
+}
+
+/* Labels más grandes para botones del header */
+.btn-deal span,
+.btn-deal-light span {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+/* Estilos para botones de navegación (Volver/Continuar) */
+.navigation-buttons {
+  gap: 2rem !important;
+}
+
+.navigation-button {
+  padding: 8px 20px !important;
+  font-size: 13px !important;
+  min-width: 100px !important;
+}
+
+.h-100p {
+  height: 100px;
+}
+
+/* Espaciado para evitar que el header tape el contenido */
+body {
+  padding-top: 80px;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+}
