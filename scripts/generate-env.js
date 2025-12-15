@@ -43,8 +43,17 @@ const envFilePath = path.join(__dirname, '..', '.env');
 const envFromFile = parseEnvFile(envFilePath);
 
 // Variables de entorno (prioridad: process.env > .env > defaults)
+// Manejar valores vacíos correctamente (permitir cadena vacía para usar proxy)
+let apiUrl = process.env.REACT_APP_API_URL;
+if (apiUrl === undefined) {
+  apiUrl = envFromFile.REACT_APP_API_URL;
+}
+if (apiUrl === undefined) {
+  apiUrl = 'http://localhost:8080'; // Solo usar default si no está definido
+}
+
 const envConfig = {
-  REACT_APP_API_URL: process.env.REACT_APP_API_URL || envFromFile.REACT_APP_API_URL || 'http://localhost:8080'
+  REACT_APP_API_URL: apiUrl
 };
 
 // Generar el contenido del archivo env.js

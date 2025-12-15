@@ -148,19 +148,69 @@ const DocumentacionRespaldatoriaPage = () => {
       formDataUpload.append('file', file);
 
       const apiUrl = env.REACT_APP_API_URL;
-      const response = await fetch(`${apiUrl}/api/archivos/upload`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: formDataUpload
-      });
-
-      if (!response.ok) {
-        throw new Error('Error subiendo el archivo');
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('No se encontró el token de autenticación. Por favor, inicia sesión nuevamente.');
       }
 
-      const result = await response.json();
+      const uploadUrl = `${apiUrl}/api/archivos/upload`;
+      console.log('Subiendo archivo a:', uploadUrl);
+
+      let response;
+      try {
+        response = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          body: formDataUpload
+        });
+      } catch (fetchError) {
+        console.error('Error de red al subir archivo:', fetchError);
+        // Si es un error de CORS, dar mensaje específico
+        if (fetchError.message.includes('CORS') || fetchError.message === 'Failed to fetch') {
+          throw new Error('Error de CORS: El servidor no permite peticiones desde este dominio. Contacta al administrador.');
+        }
+        if (fetchError.message === 'Failed to fetch' || fetchError.name === 'TypeError') {
+          throw new Error('Error de conexión al servidor. Por favor intenta más tarde.');
+        }
+        throw new Error(`Error al conectar con el servidor: ${fetchError.message}`);
+      }
+
+      // Manejar error 413 (Content Too Large) antes de intentar parsear JSON
+      if (response.status === 413) {
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        throw new Error(`El archivo "${file.name}" (${fileSizeMB} MB) excede el límite permitido por el servidor. Por favor, selecciona un archivo más pequeño (máximo 5MB aproximadamente).`);
+      }
+
+      let result;
+      try {
+        const responseText = await response.text();
+        if (responseText) {
+          result = JSON.parse(responseText);
+        } else {
+          result = {};
+        }
+      } catch (e) {
+        // Si no se puede parsear la respuesta como JSON
+        console.error('Error parseando respuesta JSON. Status:', response.status, 'Response:', e);
+        throw new Error(`Error del servidor (${response.status}). Intente nuevamente.`);
+      }
+
+      if (!response.ok) {
+        let errorMessage = result.message || 'Error al subir el archivo.';
+        if (response.status === 413) {
+          const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+          errorMessage = `El archivo "${file.name}" (${fileSizeMB} MB) excede el límite permitido por el servidor. Por favor, selecciona un archivo más pequeño.`;
+        } else if (response.status === 401 || response.status === 403) {
+          errorMessage = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+        } else if (response.status >= 500) {
+          errorMessage = 'Error del servidor. Por favor, intenta nuevamente más tarde.';
+        }
+        throw new Error(errorMessage);
+      }
+
       const archivoId = result.id || result.archivoId;
 
       if (!archivoId) {
@@ -182,7 +232,7 @@ const DocumentacionRespaldatoriaPage = () => {
       }));
     } catch (err) {
       console.error(`Error subiendo archivo ${fieldKey}:`, err);
-      setError('Error al subir el archivo. Intente nuevamente.');
+      setError(err.message || 'Error al subir el archivo. Intente nuevamente.');
     } finally {
       setUploadingField('');
       event.target.value = null;
@@ -259,11 +309,12 @@ const DocumentacionRespaldatoriaPage = () => {
               </Typography>
             )}
             <Typography variant="caption" color="textSecondary" style={{ marginBottom: '0.5rem' }}>
-              Límite de tamaño: 10MB por archivo
+              Formatos permitidos: JPG, PNG, PDF. Límite de tamaño: 10MB por archivo
             </Typography>
             <input
               id={inputId}
               type="file"
+              accept="image/*,.pdf"
               style={{ display: 'none' }}
               onChange={(event) => handleFileUpload(event, fieldKey, formField)}
             />
