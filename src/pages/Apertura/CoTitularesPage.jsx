@@ -527,9 +527,6 @@ const CoTitularesPage = ({
       setBuscandoAccionista(true);
       setFormError('');
       
-      // Guardar el número de documento actual antes de hacer la búsqueda
-      const numeroDocumentoActual = formData.datosPersonales.idNumero;
-      
       const response = await empresaService.getAccionistaPorDocumento(solicitudId, numeroDocumento);
       
       if (response && response.ok && response.status === 200) {
@@ -538,20 +535,44 @@ const CoTitularesPage = ({
         
         // Normalizar los datos del accionista al formato de firmante
         const accionistaData = normalizarDatosAccionista(response);
-        // Asegurarse de mantener el número de documento que el usuario ingresó
-        accionistaData.datosPersonales.idNumero = numeroDocumentoActual;
-        setFormData(accionistaData);
+        
+        // Preservar los datos que el usuario pudo haber ingresado mientras se buscaba
+        // IMPORTANTE: Siempre usar el valor más reciente del formData para idNumero
+        setFormData((prevFormData) => {
+          // El formData ya tiene el valor más reciente que el usuario ingresó (incluyendo el 7º dígito)
+          // porque handleFieldChange lo actualizó ANTES de llamar a esta función
+          const idNumeroDelUsuario = prevFormData.datosPersonales.idNumero || '';
+          
+          return {
+            ...accionistaData,
+            datosPrincipales: {
+              ...accionistaData.datosPrincipales,
+              // Si el usuario ya ingresó datos principales, mantenerlos (prioridad al usuario)
+              nombres: prevFormData.datosPrincipales.nombres || accionistaData.datosPrincipales.nombres || '',
+              apellidos: prevFormData.datosPrincipales.apellidos || accionistaData.datosPrincipales.apellidos || '',
+              celular: prevFormData.datosPrincipales.celular || accionistaData.datosPrincipales.celular || '',
+              correoElectronico: prevFormData.datosPrincipales.correoElectronico || accionistaData.datosPrincipales.correoElectronico || '',
+              porcentajeParticipacion: prevFormData.datosPrincipales.porcentajeParticipacion || accionistaData.datosPrincipales.porcentajeParticipacion || ''
+            },
+            datosPersonales: {
+              ...accionistaData.datosPersonales,
+              // SIEMPRE usar el valor del formData (el más reciente que el usuario ingresó)
+              // Esto evita borrar el 7º dígito o cualquier otro dígito que el usuario haya escrito
+              idNumero: idNumeroDelUsuario || numeroDocumento
+            }
+          };
+        });
         
         // Mostrar un mensaje informativo
         setFormError('');
       } else {
-        // No existe o hubo un error, no hacer nada (mantener el número de documento ingresado)
+        // No existe o hubo un error, no hacer nada (mantener todos los datos que el usuario ingresó)
         console.log('Accionista no encontrado para el documento:', numeroDocumento);
-        // El número de documento ya está guardado en el formData, no necesitamos hacer nada
+        // No tocamos el formData, así que todos los datos que el usuario ingresó se mantienen intactos
       }
     } catch (err) {
       console.error('Error verificando accionista por documento:', err);
-      // En caso de error, no interrumpir el flujo del usuario ni modificar el número de documento
+      // En caso de error, no interrumpir el flujo del usuario ni modificar ningún dato
     } finally {
       setBuscandoAccionista(false);
     }

@@ -946,12 +946,13 @@ const DatosPersonalesPage = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth variant="outlined">
+                      <FormControl fullWidth variant="outlined" required>
                         <InputLabel>Tipo de Documento</InputLabel>
                         <Select
                           value={formData.conyuge.tipoID}
                           onChange={(e) => handleConyugeChange('tipoID', e.target.value)}
                           label="Tipo de Documento"
+                          required
                         >
                           {tipoIDOptions.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -974,12 +975,13 @@ const DatosPersonalesPage = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth variant="outlined">
+                      <FormControl fullWidth variant="outlined" required>
                         <InputLabel>Tipo de Clave Fiscal</InputLabel>
                         <Select
                           value={formData.conyuge.tipoClaveFiscal}
                           onChange={(e) => handleConyugeChange('tipoClaveFiscal', e.target.value)}
                           label="Tipo de Clave Fiscal"
+                          required
                         >
                           {tipoClaveFiscalOptions.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
